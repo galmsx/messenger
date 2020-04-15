@@ -1,0 +1,30 @@
+{
+  "include": [
+    "src"
+  ],
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es2017",
+    "module": "commonjs",
+    "outDir": "dist",
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./src",
+    "experimentalDecorators": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "removeComments": true,
+    "pretty": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "allowUnreachableCode": false,
+    "forceConsistentCasingInFileNames": true,
+    "newLine": "CRLF",
+    "alwaysStrict": true,
+    "sourceMap": true,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

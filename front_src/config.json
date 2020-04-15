@@ -1,0 +1,4 @@
+{
+  "redirect_uri": "http://localhost:3000/api/auth/google",
+  "client_id": "85351197455-ob24jdfkg934906ta7bumk3is5kmjsfc.apps.googleusercontent.com"
+}

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CHAT_SERVICE } from '../../../ChatService/chat.constants';
 import { ChatService } from '../../../ChatService/chat.service';
 import { AuthGuard } from '../../guards/AuthGuard';
@@ -46,6 +46,15 @@ export class ChatController {
       { receiver_id: user.id, chat_id: chatId },
       { status: MESSAGE_STATUS.READ },
     );
+  }
+  @Post(':id/members')
+  public async addMembers(@Param('id') chatId: number, @Body() {memberIds}: {memberIds: number[]}): Promise<void>{
+    await this.chatService.addMembers(chatId, memberIds);
+  }
+
+  @Delete( '/:id')
+  public async deleteChat(@Param('id') chatId: number, @User() user: IUserExtendedInfo): Promise<void>{
+    await this.chatService.deleteChat(chatId, user.id);
   }
 
   @Get('/:id/message')

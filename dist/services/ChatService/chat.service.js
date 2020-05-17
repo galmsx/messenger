@@ -39,6 +39,22 @@ let ChatService = class ChatService {
         })));
         return chat.id;
     }
+    async addMembers(chatId, memberIds) {
+        await Promise.all(memberIds.map(m => this.models.ParticipantModel.create({
+            user_id: m,
+            chat_id: chatId,
+            roleId: chat_constants_1.CHAT_PARTICIPANT_TYPE.REGULAR
+        })));
+    }
+    async deleteChat(chatId, userId) {
+        const chat = await this.models.ChatModel.findOne({ where: { id: chatId } });
+        if (chat.type === chat_constants_1.CHAT_TYPE.GROUP) {
+            this.models.ParticipantModel.destroy({ where: { user_id: userId, chat_id: chatId } });
+            return;
+        }
+        await this.models.ParticipantModel.destroy({ where: { chat_id: chatId } });
+        await this.models.ChatModel.destroy({ where: { id: chatId } });
+    }
     async getUserChatsInfo(userId, search) {
         const chats = await this.models.ChatModel.findAll({
             include: [

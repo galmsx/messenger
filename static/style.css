@@ -71,6 +71,26 @@ header .header-pop {
   border-top: none;
 }
 
+header .header-pop.smal{
+  position: absolute;
+  width: 10vw;
+  height: 7vh;
+  background-color: white;
+  top: 7vh;
+  right: 0;
+  border: 1px solid gray;
+  border-top: none;
+}
+
+.header-pop-i.smal {
+  width: 10vw;
+  height: 7vh;
+  line-height: 7vh;
+  color: #5682a3;
+  cursor: pointer;
+  text-align: center;
+}
+
 
 
 .header-pop-i {

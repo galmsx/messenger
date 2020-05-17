@@ -42,6 +42,12 @@ let ChatController = class ChatController {
     async readMessages(chatId, user) {
         await this.messageService.updateMessages({ receiver_id: user.id, chat_id: chatId }, { status: message_constants_1.MESSAGE_STATUS.READ });
     }
+    async addMembers(chatId, { memberIds }) {
+        await this.chatService.addMembers(chatId, memberIds);
+    }
+    async deleteChat(chatId, user) {
+        await this.chatService.deleteChat(chatId, user.id);
+    }
     async getChatMessages(user, chatId) {
         return this.messageService.getExtendedMessages({ chat_id: chatId, receiver_id: user.id });
     }
@@ -84,6 +90,20 @@ __decorate([
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], ChatController.prototype, "readMessages", null);
+__decorate([
+    common_1.Post(':id/members'),
+    __param(0, common_1.Param('id')), __param(1, common_1.Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "addMembers", null);
+__decorate([
+    common_1.Delete('/:id'),
+    __param(0, common_1.Param('id')), __param(1, User_1.User()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], ChatController.prototype, "deleteChat", null);
 __decorate([
     common_1.Get('/:id/message'),
     __param(0, User_1.User()),

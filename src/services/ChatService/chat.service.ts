@@ -8,6 +8,7 @@ import { MessageModel } from '../DatabaseService/models/message.model';
 import { ChatModelToDataMapper } from './mappers/chatModelToData.mapper';
 import * as Bluebird from 'bluebird';
 import { CHAT_PARTICIPANT_TYPE, CHAT_TYPE } from './chat.constants';
+import { ChatModel } from '../DatabaseService/models/chat.model';
 
 @Injectable()
 export class ChatService {
@@ -35,6 +36,26 @@ export class ChatService {
       ),
     );
     return chat.id;
+  }
+
+  public async addMembers(chatId: number, memberIds: number[]){
+    await Promise.all(memberIds.map(m =>
+      this.models.ParticipantModel.create({
+        user_id: m,
+        chat_id : chatId,
+        roleId: CHAT_PARTICIPANT_TYPE.REGULAR
+      })
+    ))
+  }
+
+  public async deleteChat(chatId: number, userId: number): Promise<void>{
+    const chat: ChatModel = await this.models.ChatModel.findOne({where: {id: chatId}});
+    if(chat.type === CHAT_TYPE.GROUP){
+      this.models.ParticipantModel.destroy({where: {user_id: userId, chat_id: chatId }});
+      return;
+    }
+    await this.models.ParticipantModel.destroy({where: {chat_id: chatId}});
+    await this.models.ChatModel.destroy({where: {id: chatId}});
   }
 
   public async getUserChatsInfo(userId: number, search: string): Promise<IUserChatInfo[]> {

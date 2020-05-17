@@ -4,6 +4,7 @@ import fetchUserInfo from '../../actions/fetchUserInfo';
 import UserMenu from './UserMenu';
 import GroupCreator from '../GroupCreator/GroupCreator';
 import GroupMenu from './GroupMenu';
+import leaveChat from '../../actions/leaveChat';
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -15,11 +16,16 @@ export default class Header extends React.Component {
       openInfo: false,
       openMenu: false,
       showGr: false,
-      ownerId: null
+      ownerId: null,
+      chatType: 1,
+      chatMenu: false,
     };
     this.onCl = this.onCl.bind(this);
     this.onOp = this.onOp.bind(this);
     this.renderMenu = this.renderMenu.bind(this);
+    this.updateGroupUsers = this.updateGroupUsers.bind(this);
+    this.renderChatMenu = this.renderChatMenu.bind(this);
+    this.leaveChat = this.leaveChat.bind(this);
   }
 
   render() {
@@ -37,27 +43,38 @@ export default class Header extends React.Component {
             <span>LEC</span>
           </div>
           <div className="chat-menu" onClick={this.onOp}>
-            <span>{this.state.title}</span> <span>{amount > 1 ? ` ${amount+1} members`:''}</span>
+            <span>{this.state.title}</span> <span>{this.state.chatType != 1 ? ` ${amount + 1} members` : ''}</span>
           </div>
           {this.state.openInfo ? this.renderUserInfo() : ''}
           {this.state.title.length ? (
             <>
-              <i className="fas fa-ellipsis-v"> </i>
+              <i className="fas fa-ellipsis-v" onClick={() => this.setState({chatMenu : !this.state.chatMenu})}> </i>
             </>
           ) : (
             ''
           )}
+          {this.state.chatMenu ? this.renderChatMenu() : ''}
         </header>
         {this.state.showGr ? <GroupCreator onCl={this.onCl} upSt={this.props.upSt} /> : ''}
+
       </>
     );
   }
 
   renderUserInfo() {
-    const amount = this.state.users.length;
-    if (amount === 1) return <UserMenu user={this.state.users[0]} onCl={this.onCl} />;
-    else{
-      return <GroupMenu users={this.state.users} onCl={this.onCl} ownerId={this.state.ownerId} title={this.state.title}/>
+    const chatType = this.state.chatType;
+    if (chatType === 1) return <UserMenu user={this.state.users[0]} onCl={this.onCl} />;
+    else {
+      return (
+        <GroupMenu
+          users={this.state.users}
+          onCl={this.onCl}
+          ownerId={this.state.ownerId}
+          title={this.state.title}
+          chatId={this.props.chatId}
+          upSt={()=>this.updateGroupUsers()}
+        />
+      );
     }
   }
   renderMenu() {
@@ -90,6 +107,21 @@ export default class Header extends React.Component {
     );
   }
 
+  renderChatMenu(){
+    return (
+      <div className="header-pop smal">
+        <div className="header-pop-i smal" onClick={() => this.leaveChat()}>
+          <div>Leave chat</div>
+        </div>
+      </div>
+    );
+  }
+
+  async leaveChat(){
+    await leaveChat(this.props.chatId);
+    location.replace('/');
+  }
+
   onCl() {
     this.setState({ openInfo: false, showGr: false, openMenu: false });
   }
@@ -110,7 +142,16 @@ export default class Header extends React.Component {
     await this.setState({
       title,
       users: users.filter(u => u.id !== userInfo.id),
-      ownerId: chat.ownerId
+      ownerId: chat.ownerId,
+      chatType: chat.type,
+    });
+  }
+
+  async updateGroupUsers(){
+    const chat = await fetchChatInfo(this.props.chatId);
+    const users = await Promise.all(chat.participantsIds.map(async p => await fetchUserInfo(p)));
+    await this.setState({
+      users: users.filter(u => u.id !== userInfo.id),
     });
   }
 }

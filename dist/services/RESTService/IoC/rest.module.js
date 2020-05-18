@@ -18,12 +18,14 @@ const user_controller_1 = require("../controllers/user/user.controller");
 const key_value_store_module_1 = require("../../KeyValueService/IoC/key.value.store.module");
 const web_socket_module_1 = require("../../WebSocketsService/IoC/web.socket.module");
 const message_controller_1 = require("../controllers/message/message.controller");
+const file_controller_1 = require("../controllers/file/file.controller");
+const file_storage_module_1 = require("../../FileStorageService/IoC/file.storage.module");
 let RestModule = class RestModule {
 };
 RestModule = __decorate([
     common_1.Module({
-        imports: [databse_module_1.DatabaseModule, auth_module_1.AuthModule, user_module_1.UserModule, chat_module_1.ChatModule, message_module_1.MessageModule, key_value_store_module_1.KeyValueStoreModule, web_socket_module_1.WebSocketModule],
-        controllers: [auth_controller_1.AuthController, chat_controller_1.ChatController, user_controller_1.UserController, message_controller_1.MessageController],
+        imports: [databse_module_1.DatabaseModule, auth_module_1.AuthModule, user_module_1.UserModule, chat_module_1.ChatModule, message_module_1.MessageModule, key_value_store_module_1.KeyValueStoreModule, web_socket_module_1.WebSocketModule, file_storage_module_1.FileStorageModule],
+        controllers: [auth_controller_1.AuthController, chat_controller_1.ChatController, user_controller_1.UserController, message_controller_1.MessageController, file_controller_1.FileController],
     })
 ], RestModule);
 exports.RestModule = RestModule;

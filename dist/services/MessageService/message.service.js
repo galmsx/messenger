@@ -21,6 +21,7 @@ const message_constants_1 = require("./message.constants");
 const web_socket_constants_1 = require("../WebSocketsService/web.socket.constants");
 const web_socket_service_1 = require("../WebSocketsService/web.socket.service");
 const Bluebird = require("bluebird");
+const application_model_1 = require("../DatabaseService/models/application.model");
 let MessageService = class MessageService {
     constructor(models, wsService) {
         this.models = models;
@@ -38,8 +39,8 @@ let MessageService = class MessageService {
                 chat_id: options.chat_id,
                 [sequelize_1.Op.or]: [{ receiver_id: options.receiver_id }],
             },
-            include: [{ model: user_model_1.UserModel, as: 'sender' }],
-            order: [["createdAt", 'ASC']]
+            include: [{ model: user_model_1.UserModel, as: 'sender' }, { model: application_model_1.ApplicationModel }],
+            order: [["createdAt", 'ASC']],
         });
         return messages.map(ModelToData_mapper_1.ModelToDataMapper.mapToExtendedInfo);
     }
@@ -55,19 +56,23 @@ let MessageService = class MessageService {
                     },
                 }),
             },
-            include: [{ model: user_model_1.UserModel, as: 'sender' }],
+            include: [{ model: user_model_1.UserModel, as: 'sender' }, { model: application_model_1.ApplicationModel }],
         });
         return message ? ModelToData_mapper_1.ModelToDataMapper.mapToExtendedInfo(message) : null;
     }
     async postMessages(messages) {
-        await this.models.MessageModel.bulkCreate(messages.map(m => ({
-            content: m.content,
-            chat_id: m.chat_id,
-            receiver_id: m.receiver_id,
-            sender_id: m.sender_id,
-            status: m.sender_id !== m.receiver_id ? message_constants_1.MESSAGE_STATUS.UNREAD : message_constants_1.MESSAGE_STATUS.READ,
-            message_id: m.message_id,
-        })));
+        await Promise.all(messages.map(async (m) => {
+            const message = await this.models.MessageModel.create({
+                content: m.content,
+                chat_id: m.chat_id,
+                receiver_id: m.receiver_id,
+                sender_id: m.sender_id,
+                status: m.sender_id !== m.receiver_id ? message_constants_1.MESSAGE_STATUS.UNREAD : message_constants_1.MESSAGE_STATUS.READ,
+            });
+            await Promise.all(m.applications.map(async (a) => {
+                await this.models.ApplicationModel.create({ message_id: message.id, link: a.link, type: a.type });
+            }));
+        }));
         await Bluebird.each(messages, async (m) => this.wsService.notifyUser(m.receiver_id));
     }
 };

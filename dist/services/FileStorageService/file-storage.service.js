@@ -7,15 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
-const file_storage_constants_1 = require("../file-storage.constants");
-const file_storage_service_1 = require("../file-storage.service");
-let FileStorageModule = class FileStorageModule {
+const uuid_1 = require("uuid");
+const fs = require("fs-extra");
+const path = require("path");
+let FileStorageService = class FileStorageService {
+    async uploadFile(file) {
+        const filename = uuid_1.v4() + file.originalname.slice(file.originalname.indexOf('.'));
+        await fs.writeFile(path.join(__dirname, '../../../static/files/', filename), file.buffer);
+        return 'http://localhost:3000/files/' + filename;
+    }
 };
-FileStorageModule = __decorate([
-    common_1.Module({
-        providers: [{ provide: file_storage_constants_1.FILE_STORAGE_SERVICE, useClass: file_storage_service_1.FileStorageService }],
-        exports: [file_storage_constants_1.FILE_STORAGE_SERVICE]
-    })
-], FileStorageModule);
-exports.FileStorageModule = FileStorageModule;
-//# sourceMappingURL=file.storage.module.js.map
+FileStorageService = __decorate([
+    common_1.Injectable()
+], FileStorageService);
+exports.FileStorageService = FileStorageService;
+//# sourceMappingURL=file-storage.service.js.map

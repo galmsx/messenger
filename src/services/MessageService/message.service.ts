@@ -10,6 +10,7 @@ import { MESSAGE_STATUS } from './message.constants';
 import { WEB_SOCKET_SERVICE } from '../WebSocketsService/web.socket.constants';
 import { WebSocketService } from '../WebSocketsService/web.socket.service';
 import * as Bluebird from 'bluebird';
+import { ApplicationModel } from '../DatabaseService/models/application.model';
 
 @Injectable()
 export class MessageService {
@@ -32,8 +33,8 @@ export class MessageService {
         chat_id: options.chat_id,
         [Op.or]: [{ receiver_id: options.receiver_id }],
       },
-      include: [{ model: UserModel, as: 'sender' }],
-      order: [["createdAt" ,'ASC']]
+      include: [{ model: UserModel, as: 'sender' }, {model: ApplicationModel}],
+      order: [["createdAt" ,'ASC']],
     });
     return messages.map(ModelToDataMapper.mapToExtendedInfo);
   }
@@ -50,22 +51,26 @@ export class MessageService {
           },
         }),
       },
-      include: [{ model: UserModel, as: 'sender' }],
+      include: [{ model: UserModel, as: 'sender' }, {model: ApplicationModel}],
     });
     return message ? ModelToDataMapper.mapToExtendedInfo(message) : null;
   }
 
   public async postMessages(messages: IPostMessage[]): Promise<void> {
-    await this.models.MessageModel.bulkCreate(
-      messages.map(m => ({
+
+    await Promise.all(messages.map(async (m) => {
+     const message = await this.models.MessageModel.create({
         content: m.content,
         chat_id: m.chat_id,
         receiver_id: m.receiver_id,
         sender_id: m.sender_id,
         status: m.sender_id !== m.receiver_id ? MESSAGE_STATUS.UNREAD : MESSAGE_STATUS.READ,
-        message_id: m.message_id,
-      })),
-    );
+      });
+
+     await Promise.all(m.applications.map(async (a) => {
+       await this.models.ApplicationModel.create({message_id: message.id, link: a.link, type: a.type});
+     }));
+    }));
 
     await Bluebird.each(messages, async m => this.wsService.notifyUser(m.receiver_id));
   }

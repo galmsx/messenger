@@ -10,9 +10,11 @@ import { UserController } from '../controllers/user/user.controller';
 import { KeyValueStoreModule } from '../../KeyValueService/IoC/key.value.store.module';
 import { WebSocketModule } from '../../WebSocketsService/IoC/web.socket.module';
 import { MessageController } from '../controllers/message/message.controller';
+import { FileController } from '../controllers/file/file.controller';
+import { FileStorageModule } from '../../FileStorageService/IoC/file.storage.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule, ChatModule, MessageModule, KeyValueStoreModule, WebSocketModule],
-  controllers: [AuthController, ChatController, UserController, MessageController],
+  imports: [DatabaseModule, AuthModule, UserModule, ChatModule, MessageModule, KeyValueStoreModule, WebSocketModule, FileStorageModule],
+  controllers: [AuthController, ChatController, UserController, MessageController, FileController],
 })
 export class RestModule {}

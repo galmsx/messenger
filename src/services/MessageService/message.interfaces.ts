@@ -1,4 +1,5 @@
 import { IUser } from '../UserService/user.interfaces';
+import { APPLICATION_TYPE } from './message.constants';
 
 export interface IExtendedMessage {
   id: number;
@@ -9,6 +10,7 @@ export interface IExtendedMessage {
   status: number;
   user: IUser;
   createdAt: string;
+  applications: IPostMessageApplication[]
 }
 
 export interface IPostMessage {
@@ -17,4 +19,9 @@ export interface IPostMessage {
   receiver_id: number;
   sender_id: number;
   message_id: string;
+  applications: IPostMessageApplication[];
+}
+export interface IPostMessageApplication {
+link: string;
+type: APPLICATION_TYPE;
 }

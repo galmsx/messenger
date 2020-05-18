@@ -12,6 +12,7 @@ export class ModelToDataMapper {
       status: model.status,
       createdAt: model.createdAt,
       user: model.sender.get() as any,
+      applications: model.applications.map(a => ({link: a.link, type: a.type}))
     }
   }
 }

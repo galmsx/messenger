@@ -482,7 +482,7 @@ header i{
   width: 92%;
 }
 
-.received_withd_msg p {
+.received_withd_msg > div {
   background: #ebebeb none repeat scroll 0 0;
   border-radius: 3px;
   color: #646464;
@@ -509,7 +509,7 @@ header i{
   width: 60%;
 }
 
-.sent_msg p {
+.sent_msg > div {
   background: #05728f none repeat scroll 0 0;
   border-radius: 3px;
   font-size: 14px;
@@ -541,6 +541,11 @@ header i{
 .type_msg {
   border-top: 1px solid #c4c4c4;
   position: relative;
+}
+
+.type_msg #file, .type_msg #fimg{
+  width: 0;
+  height: 0;
 }
 
 .msg_send_btn {
@@ -631,6 +636,26 @@ div.user-i-white {
 .att-s {
   left: 6rem;
 }
+.img-upl{
+  position: absolute;
+  top: -7rem;
+  right: 6rem;
+  color: gray;
+  cursor: pointer;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 0.4rem;
+  background-size: cover;
+  background-position: center;
+}
+.img-upl i{
+  position: absolute;
+  color: white;
+  font-size: 1.5rem;
+  top: 0.3rem;
+  right: 0.3rem;
+  cursor: pointer;
+}
 .search-bar {
   width: 100%;
   font-size: 2.5rem;
@@ -680,4 +705,19 @@ div.user-i-white {
   margin: 0;
   padding: 0;
   margin-right: 2vw;
+}
+
+.app-list{
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+.app-image{
+  width: 100%;
+  height: 20rem;
+  background-image: url("http://localhost:3000/files/bc759d6b-ec05-45a7-a146-263a57cf7804.jfif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }

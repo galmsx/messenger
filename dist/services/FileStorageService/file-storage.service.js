@@ -14,7 +14,7 @@ let FileStorageService = class FileStorageService {
     async uploadFile(file) {
         const filename = uuid_1.v4() + file.originalname.slice(file.originalname.indexOf('.'));
         await fs.writeFile(path.join(__dirname, '../../../static/files/', filename), file.buffer);
-        return 'http://localhost:3000/files/' + filename;
+        return '/files/' + filename;
     }
 };
 FileStorageService = __decorate([

@@ -8,6 +8,6 @@ export class FileStorageService {
   public async uploadFile(file): Promise<string> {
     const filename: string = uuid() + file.originalname.slice(file.originalname.indexOf('.'));
     await fs.writeFile(path.join(__dirname, '../../../static/files/',filename), file.buffer);
-    return 'http://localhost:3000/files/' + filename;
+    return '/files/' + filename;
   }
 }

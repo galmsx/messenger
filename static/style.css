@@ -144,6 +144,12 @@ header .chat-menu {
   background-color: cornflowerblue;
   position: relative;
 }
+.white-b{
+  background-color: white;
+}
+.blue-c{
+  color: #05728f !important;
+}
 .user-i-blue img {
   position: absolute;
   width: 12rem;
@@ -720,4 +726,20 @@ div.user-i-white {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+.group-creator h3{
+  text-align: center;
+  width: 100%;
+  font-size: 3.5rem;
+  color: #05728f;
+  margin-top: 2rem;
+}
+.group-creator .p-inf-ab{
+  font-size: 2rem;
+  text-indent: 2rem;
+  color: black;
+  padding: 2.5rem;
+}
+.group-creator.s{
+height: 45vh;
 }

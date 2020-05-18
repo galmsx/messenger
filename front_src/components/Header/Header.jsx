@@ -5,6 +5,8 @@ import UserMenu from './UserMenu';
 import GroupCreator from '../GroupCreator/GroupCreator';
 import GroupMenu from './GroupMenu';
 import leaveChat from '../../actions/leaveChat';
+import InfoContainer from '../InfoContainer/InfoContainer';
+import Settings from '../Settings/Settings';
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -19,6 +21,8 @@ export default class Header extends React.Component {
       ownerId: null,
       chatType: 1,
       chatMenu: false,
+      showInfo: false,
+      showSetting: false
     };
     this.onCl = this.onCl.bind(this);
     this.onOp = this.onOp.bind(this);
@@ -56,6 +60,8 @@ export default class Header extends React.Component {
           {this.state.chatMenu ? this.renderChatMenu() : ''}
         </header>
         {this.state.showGr ? <GroupCreator onCl={this.onCl} upSt={this.props.upSt} /> : ''}
+        {this.state.showInfo ? <InfoContainer onCl={this.onCl} /> : ''}
+        {this.state.showSetting ? <Settings onCl={this.onCl} /> : '' }
 
       </>
     );
@@ -91,13 +97,13 @@ export default class Header extends React.Component {
           </div>
           <div>New group</div>
         </div>
-        <div className="header-pop-i">
+        <div className="header-pop-i" onClick={() => this.setState({showSetting: true})}>
           <div>
             <i className="fas fa-cog"> </i>
           </div>
           <div>Settings</div>
         </div>
-        <div className="header-pop-i">
+        <div className="header-pop-i" onClick={()=> this.setState({showInfo: true})}>
           <div>
             <i className="fas fa-question-circle"> </i>
           </div>
@@ -123,7 +129,7 @@ export default class Header extends React.Component {
   }
 
   onCl() {
-    this.setState({ openInfo: false, showGr: false, openMenu: false });
+    this.setState({ openInfo: false, showGr: false, openMenu: false, showInfo: false, showSetting: false });
   }
 
   onOp() {

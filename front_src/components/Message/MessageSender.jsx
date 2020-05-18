@@ -18,9 +18,9 @@ export default class MessageSender extends React.Component {
   async onSubmit(e) {
     e.preventDefault();
     const messageContent = e.target.content.value;
-    if (!messageContent) return;
+    if (!messageContent && !this.state.image) return;
     e.target.content.value = '';
-    await sendMessages(this.props.chatId, messageContent, this.getApplicationPayload());
+    await sendMessages(this.props.chatId, messageContent || ' ', this.getApplicationPayload());
     await this.setState({image: null, file: null});
     this.props.upSt();
   }

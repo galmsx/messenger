@@ -44,6 +44,6 @@ if(content.length > 36) content = content.slice(0,33)+ '...'
     const userName = lastMessage.user.first_name;
     return <p>{userName + ': ' + content}</p>;
   }
-
+  content = content == ' ' ? 'image' : content;
   return <p> You: {content}</p>;
 }

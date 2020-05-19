@@ -743,3 +743,45 @@ div.user-i-white {
 .group-creator.s{
 height: 45vh;
 }
+.settings-info{
+  width: 100%;
+  height: 2rem;
+  font-size: 2rem;
+  color: #05728f;
+ padding-bottom: 1rem;
+  padding-left: 19rem;
+  position: relative;
+  top: -5rem;
+}
+.settings-info span{
+  color: black;
+}
+.pad{
+  position: relative;
+  width: 100%;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  top: -3rem;
+}
+
+.change-pass{
+  cursor: pointer;
+  margin: 0 auto;
+  width: 60%;
+  height: 3.5rem;
+  line-height: 3.5rem;
+  text-align: center;
+  background-color: #05728f;
+  color: white;
+  font-size: 2rem;
+  border-radius: 0.5rem;
+  margin-bottom: 6rem;
+}
+.csa{
+  width: 25%;
+  margin-bottom: 0;
+}
+
+.slfr{
+  height: 60vh;
+}

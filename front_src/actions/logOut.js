@@ -1,4 +1,4 @@
 export default function() {
-  localStorage.setItem('token',null);
+  localStorage.setItem('token','');
   location.replace('/');
 }

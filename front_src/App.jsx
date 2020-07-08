@@ -7,6 +7,8 @@ import 'regenerator-runtime/runtime.js';
 import initApp from './tools/initApp';
 import AppContainer from './components/AppContainer/AppContainer';
 
+//In cause of deadlines i had no time to read about redux so...)))
+
 function isSigned() {
   return localStorage.getItem('token');
 }

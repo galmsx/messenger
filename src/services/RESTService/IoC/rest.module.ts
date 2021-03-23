@@ -14,7 +14,16 @@ import { FileController } from '../controllers/file/file.controller';
 import { FileStorageModule } from '../../FileStorageService/IoC/file.storage.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, UserModule, ChatModule, MessageModule, KeyValueStoreModule, WebSocketModule, FileStorageModule],
+  imports: [
+    DatabaseModule,
+    AuthModule,
+    UserModule,
+    ChatModule,
+    MessageModule,
+    KeyValueStoreModule,
+    WebSocketModule,
+    FileStorageModule,
+  ],
   controllers: [AuthController, ChatController, UserController, MessageController, FileController],
 })
 export class RestModule {}

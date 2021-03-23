@@ -6,12 +6,11 @@ import { MessageModel } from './message.model';
   tableName: 'chat',
   timestamps: false,
 })
-export class ChatModel extends Model<ChatModel>{
+export class ChatModel extends Model<ChatModel> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT.UNSIGNED)
   public id: number;
-
 
   @Column(DataType.TEXT)
   public title: string;
@@ -20,9 +19,9 @@ export class ChatModel extends Model<ChatModel>{
   @Column(DataType.INTEGER)
   public type: number;
 
-  @HasMany(()=>ParticipantModel)
+  @HasMany(() => ParticipantModel)
   public participants: ParticipantModel[];
 
-  @HasMany(()=>MessageModel)
+  @HasMany(() => MessageModel)
   public messages: MessageModel[];
 }

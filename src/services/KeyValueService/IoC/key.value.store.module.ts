@@ -4,11 +4,7 @@ import { KeyValueStoreService } from '../key.value.store.service';
 import { keyValueProvider } from './key.value.store.provider';
 
 @Module({
-  providers: [
-    {provide: KEY_VALUE_SERVICE, useClass: KeyValueStoreService},
-    ...keyValueProvider
-  ],
-  exports: [KEY_VALUE_SERVICE]
+  providers: [{ provide: KEY_VALUE_SERVICE, useClass: KeyValueStoreService }, ...keyValueProvider],
+  exports: [KEY_VALUE_SERVICE],
 })
-export class KeyValueStoreModule {
-}
+export class KeyValueStoreModule {}

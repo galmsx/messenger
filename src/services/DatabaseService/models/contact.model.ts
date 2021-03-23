@@ -5,15 +5,15 @@ import { UserModel } from './user.model';
   tableName: 'contact',
   timestamps: false,
 })
-export class ContactModel extends Model<ContactModel>{
+export class ContactModel extends Model<ContactModel> {
   @PrimaryKey
-  @ForeignKey(()=>UserModel)
+  @ForeignKey(() => UserModel)
   @Column(DataType.BIGINT.UNSIGNED)
   public user_id: number;
 
   @Column(DataType.BIGINT.UNSIGNED)
   public contact_id: number;
 
-  @BelongsTo(()=>UserModel)
+  @BelongsTo(() => UserModel)
   public user: UserModel;
 }

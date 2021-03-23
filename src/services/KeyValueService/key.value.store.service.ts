@@ -2,12 +2,9 @@ import { Inject, Injectable } from '@nestjs/common';
 import { REDIS } from './key.value.store.constants';
 import { RedisClient } from 'redis';
 
-
 @Injectable()
 export class KeyValueStoreService {
-
-  constructor(@Inject(REDIS) private readonly redisClient: RedisClient) {
-  }
+  constructor(@Inject(REDIS) private readonly redisClient: RedisClient) {}
 
   public async saveString(key: any, value: any): Promise<void> {
     return new Promise((res, rej) => {
@@ -19,10 +16,10 @@ export class KeyValueStoreService {
   }
 
   public async getSting(key: string): Promise<string> {
-    return new Promise((res) => {
+    return new Promise(res => {
       this.redisClient.get(key, (e, v) => {
         if (e) console.log(e);
-         res(v);
+        res(v);
       });
     });
   }

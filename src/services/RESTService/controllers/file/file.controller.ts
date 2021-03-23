@@ -7,12 +7,12 @@ import { FileStorageService } from '../../../FileStorageService/file-storage.ser
 @Controller('/api/file')
 @UseGuards(AuthGuard)
 export class FileController {
-  constructor(@Inject(FILE_STORAGE_SERVICE) private readonly fileStorageService: FileStorageService){}
+  constructor(@Inject(FILE_STORAGE_SERVICE) private readonly fileStorageService: FileStorageService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  public async uploadFile(@UploadedFile() file): Promise<{link: string}>{
+  public async uploadFile(@UploadedFile() file): Promise<{ link: string }> {
     const link = await this.fileStorageService.uploadFile(file);
-    return {link};
+    return { link };
   }
 }

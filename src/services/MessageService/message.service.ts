@@ -19,8 +19,8 @@ export class MessageService {
     @Inject(WEB_SOCKET_SERVICE) private readonly wsService: WebSocketService,
   ) {}
 
-  public async updateMessages(filter: Partial<MessageModel>, value: Partial<MessageModel>): Promise<void>{
-    await this.models.MessageModel.update(value as any, {where :filter as any});
+  public async updateMessages(filter: Partial<MessageModel>, value: Partial<MessageModel>): Promise<void> {
+    await this.models.MessageModel.update(value as any, { where: filter as any });
   }
 
   public async getMessagesInfo(filter: Partial<MessageModel>): Promise<MessageModel[]> {
@@ -33,8 +33,8 @@ export class MessageService {
         chat_id: options.chat_id,
         [Op.or]: [{ receiver_id: options.receiver_id }],
       },
-      include: [{ model: UserModel, as: 'sender' }, {model: ApplicationModel}],
-      order: [["createdAt" ,'ASC']],
+      include: [{ model: UserModel, as: 'sender' }, { model: ApplicationModel }],
+      order: [['createdAt', 'ASC']],
     });
     return messages.map(ModelToDataMapper.mapToExtendedInfo);
   }
@@ -43,34 +43,37 @@ export class MessageService {
     const message: MessageModel = await this.models.MessageModel.findOne({
       where: {
         chat_id: chat_id,
-         receiver_id: receiver_id ,
+        receiver_id: receiver_id,
         createdAt: await this.models.MessageModel.max('createdAt', {
           where: {
             chat_id: chat_id,
-             receiver_id: receiver_id ,
+            receiver_id: receiver_id,
           },
         }),
       },
-      include: [{ model: UserModel, as: 'sender' }, {model: ApplicationModel}],
+      include: [{ model: UserModel, as: 'sender' }, { model: ApplicationModel }],
     });
     return message ? ModelToDataMapper.mapToExtendedInfo(message) : null;
   }
 
   public async postMessages(messages: IPostMessage[]): Promise<void> {
+    await Promise.all(
+      messages.map(async m => {
+        const message = await this.models.MessageModel.create({
+          content: m.content,
+          chat_id: m.chat_id,
+          receiver_id: m.receiver_id,
+          sender_id: m.sender_id,
+          status: m.sender_id !== m.receiver_id ? MESSAGE_STATUS.UNREAD : MESSAGE_STATUS.READ,
+        });
 
-    await Promise.all(messages.map(async (m) => {
-     const message = await this.models.MessageModel.create({
-        content: m.content,
-        chat_id: m.chat_id,
-        receiver_id: m.receiver_id,
-        sender_id: m.sender_id,
-        status: m.sender_id !== m.receiver_id ? MESSAGE_STATUS.UNREAD : MESSAGE_STATUS.READ,
-      });
-
-     await Promise.all(m.applications.map(async (a) => {
-       await this.models.ApplicationModel.create({message_id: message.id, link: a.link, type: a.type});
-     }));
-    }));
+        await Promise.all(
+          m.applications.map(async a => {
+            await this.models.ApplicationModel.create({ message_id: message.id, link: a.link, type: a.type });
+          }),
+        );
+      }),
+    );
 
     await Bluebird.each(messages, async m => this.wsService.notifyUser(m.receiver_id));
   }

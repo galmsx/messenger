@@ -19,20 +19,23 @@ export class ChatController {
 
   @Get()
   public async getChats(@User() user: IUserExtendedInfo, @Query('search') search: string): Promise<IUserChatInfo[]> {
-    const chats = await this.chatService.getUserChatsInfo(user.id,search);
+    const chats = await this.chatService.getUserChatsInfo(user.id, search);
     return this.mapChatsToPresentation(chats);
   }
 
   @Post()
-  public async createChat(@Body() payload: ICreateChat):Promise<{chatId: number}>{
+  public async createChat(@Body() payload: ICreateChat): Promise<{ chatId: number }> {
     const chatId = await this.chatService.createChat(payload.participantIds);
-    return {chatId};
+    return { chatId };
   }
 
   @Post('/group')
-  public async createGroupChat(@Body() payload: ICreateGroupChat, @User() user: IUserExtendedInfo): Promise<{chatId: number}>{
+  public async createGroupChat(
+    @Body() payload: ICreateGroupChat,
+    @User() user: IUserExtendedInfo,
+  ): Promise<{ chatId: number }> {
     const chatId = await this.chatService.createGroupChat(user.id, payload);
-    return {chatId};
+    return { chatId };
   }
 
   @Get('/:id')
@@ -48,12 +51,12 @@ export class ChatController {
     );
   }
   @Post(':id/members')
-  public async addMembers(@Param('id') chatId: number, @Body() {memberIds}: {memberIds: number[]}): Promise<void>{
+  public async addMembers(@Param('id') chatId: number, @Body() { memberIds }: { memberIds: number[] }): Promise<void> {
     await this.chatService.addMembers(chatId, memberIds);
   }
 
-  @Delete( '/:id')
-  public async deleteChat(@Param('id') chatId: number, @User() user: IUserExtendedInfo): Promise<void>{
+  @Delete('/:id')
+  public async deleteChat(@Param('id') chatId: number, @User() user: IUserExtendedInfo): Promise<void> {
     await this.chatService.deleteChat(chatId, user.id);
   }
 

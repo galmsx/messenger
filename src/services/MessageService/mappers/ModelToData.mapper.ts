@@ -2,7 +2,7 @@ import { MessageModel } from '../../DatabaseService/models/message.model';
 import { IExtendedMessage } from '../message.interfaces';
 
 export class ModelToDataMapper {
-  public static mapToExtendedInfo(model: MessageModel): IExtendedMessage{
+  public static mapToExtendedInfo(model: MessageModel): IExtendedMessage {
     return {
       id: model.id,
       content: model.content,
@@ -12,7 +12,7 @@ export class ModelToDataMapper {
       status: model.status,
       createdAt: model.createdAt,
       user: model.sender.get() as any,
-      applications: model.applications.map(a => ({link: a.link, type: a.type}))
-    }
+      applications: model.applications.map(a => ({ link: a.link, type: a.type })),
+    };
   }
 }

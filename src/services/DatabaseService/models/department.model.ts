@@ -5,7 +5,7 @@ import { UserModel } from './user.model';
   tableName: 'department',
   timestamps: false,
 })
-export class DepartmentModel extends Model<DepartmentModel>{
+export class DepartmentModel extends Model<DepartmentModel> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT.UNSIGNED)
@@ -15,6 +15,6 @@ export class DepartmentModel extends Model<DepartmentModel>{
   @Column(DataType.TEXT)
   public title: string;
 
-  @HasMany(()=>UserModel)
+  @HasMany(() => UserModel)
   users: UserModel[];
 }

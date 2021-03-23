@@ -3,11 +3,14 @@ import {
   AutoIncrement,
   BelongsTo,
   Column,
-  DataType, Default,
-  ForeignKey, HasMany,
+  DataType,
+  Default,
+  ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
-  Table, Unique,
+  Table,
+  Unique,
 } from 'sequelize-typescript';
 import { PositionModel } from './position.model';
 import { DepartmentModel } from './department.model';
@@ -20,7 +23,7 @@ import { MessageModel } from './message.model';
   tableName: 'user',
   timestamps: false,
 })
-export class UserModel extends Model<UserModel>{
+export class UserModel extends Model<UserModel> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT.UNSIGNED)
@@ -46,33 +49,32 @@ export class UserModel extends Model<UserModel>{
   @Column(DataType.STRING(300))
   public avatar: string;
 
-  @ForeignKey(()=>DepartmentModel)
+  @ForeignKey(() => DepartmentModel)
   @Column(DataType.BIGINT.UNSIGNED)
   public department_id: number;
 
-  @ForeignKey(()=>PositionModel)
+  @ForeignKey(() => PositionModel)
   @Column(DataType.BIGINT.UNSIGNED)
   public position_id: number;
 
-  @BelongsTo(()=>PositionModel)
+  @BelongsTo(() => PositionModel)
   public position: PositionModel;
 
-  @BelongsTo(()=>DepartmentModel)
+  @BelongsTo(() => DepartmentModel)
   public department: DepartmentModel;
 
-  @HasMany(()=>ContactModel)
+  @HasMany(() => ContactModel)
   public contacts: ContactModel[];
 
-  @HasMany(()=> UserProjectModel)
+  @HasMany(() => UserProjectModel)
   public user_project: UserProjectModel[];
 
-  @HasMany(()=> ParticipantModel)
+  @HasMany(() => ParticipantModel)
   public participants: ParticipantModel[];
 
-  @HasMany(()=>MessageModel,'sender_id')
+  @HasMany(() => MessageModel, 'sender_id')
   public sent_messages: MessageModel[];
 
-  @HasMany(()=>MessageModel,'receiver_id')
+  @HasMany(() => MessageModel, 'receiver_id')
   public received_messages: MessageModel[];
-
 }

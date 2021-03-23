@@ -24,7 +24,7 @@ export class ChatModelToDataMapper {
       title: model.type === CHAT_TYPE.GROUP ? model.title : companion.first_name + ' ' + companion.last_name,
       type: model.type,
       unReadMessagesCount: model.messages.filter(m => m.status === MESSAGE_STATUS.UNREAD).length,
-      lastMessage: await this.messageService.getLastChatMessage(model.id,userId),
+      lastMessage: await this.messageService.getLastChatMessage(model.id, userId),
       image: model.type === CHAT_TYPE.GROUP ? STANDART_GROUP_CHAT_IMAGE : companion.avatar,
     };
   }

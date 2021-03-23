@@ -12,7 +12,7 @@ import { ChatModel } from '../DatabaseService/models/chat.model';
 
 @Injectable()
 export class ChatService {
-  constructor(@Inject(MODELS) private readonly models: IModels, private readonly mapper: ChatModelToDataMapper) {}
+  constructor(@Inject(MODELS) private readonly models: IModels, private readonly mapper: ChatModelToDataMapper) { }
 
   public async createChat(participantIds: number[]): Promise<number> {
     const chat = await this.models.ChatModel.create({ type: CHAT_TYPE.REGULAR });
@@ -38,24 +38,24 @@ export class ChatService {
     return chat.id;
   }
 
-  public async addMembers(chatId: number, memberIds: number[]){
+  public async addMembers(chatId: number, memberIds: number[]) {
     await Promise.all(memberIds.map(m =>
       this.models.ParticipantModel.create({
         user_id: m,
-        chat_id : chatId,
+        chat_id: chatId,
         roleId: CHAT_PARTICIPANT_TYPE.REGULAR
       })
     ))
   }
 
-  public async deleteChat(chatId: number, userId: number): Promise<void>{
-    const chat: ChatModel = await this.models.ChatModel.findOne({where: {id: chatId}});
-    if(chat.type === CHAT_TYPE.GROUP){
-      this.models.ParticipantModel.destroy({where: {user_id: userId, chat_id: chatId }});
+  public async deleteChat(chatId: number, userId: number): Promise<void> {
+    const chat: ChatModel = await this.models.ChatModel.findOne({ where: { id: chatId } });
+    if (chat.type === CHAT_TYPE.GROUP) {
+      this.models.ParticipantModel.destroy({ where: { user_id: userId, chat_id: chatId } });
       return;
     }
-    await this.models.ParticipantModel.destroy({where: {chat_id: chatId}});
-    await this.models.ChatModel.destroy({where: {id: chatId}});
+    await this.models.ParticipantModel.destroy({ where: { chat_id: chatId } });
+    await this.models.ChatModel.destroy({ where: { id: chatId } });
   }
 
   public async getUserChatsInfo(userId: number, search: string): Promise<IUserChatInfo[]> {
@@ -93,10 +93,10 @@ export class ChatService {
     };
   }
 
-  private  filterChats(chatsFormatted:IUserChatInfo[], search): IUserChatInfo[]{
-    const chatsSorted = chatsFormatted.sort((a,b) =>{
-      if(!a.lastMessage || !b.lastMessage) return 1;
-      return  +new Date(b.lastMessage.createdAt) - +new Date(a.lastMessage.createdAt);
+  private filterChats(chatsFormatted: IUserChatInfo[], search): IUserChatInfo[] {
+    const chatsSorted = chatsFormatted.sort((a, b) => {
+      if (!a.lastMessage || !b.lastMessage) return 1;
+      return +new Date(b.lastMessage.createdAt) - +new Date(a.lastMessage.createdAt);
     });
     if (!chatsSorted.some(c => c.title.includes(search))) return chatsSorted;
 

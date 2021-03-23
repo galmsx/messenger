@@ -1,8 +1,8 @@
-export interface IUserExtendedInfo extends IUser{
-department: IDepartment;
-position: IPosition;
-projects: IProject[];
-socketId?: string;
+export interface IUserExtendedInfo extends IUser {
+  department: IDepartment;
+  position: IPosition;
+  projects: IProject[];
+  socketId?: string;
 }
 
 export interface IUser {
@@ -15,7 +15,6 @@ export interface IUser {
   department_id: number;
   position_id: number;
 }
-
 
 export interface IDepartment {
   id: number;

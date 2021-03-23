@@ -1,5 +1,5 @@
 import { UserModel } from './models/user.model';
-import {PositionModel} from './models/position.model'
+import { PositionModel } from './models/position.model';
 import { DepartmentModel } from './models/department.model';
 import { ContactModel } from './models/contact.model';
 import { ProjectModel } from './models/project.model';
@@ -14,7 +14,7 @@ export interface IDatabaseService {
 }
 
 export interface IModels {
-UserModel: typeof UserModel;
+  UserModel: typeof UserModel;
   PositionModel: typeof PositionModel;
   DepartmentModel: typeof DepartmentModel;
   ContactModel: typeof ContactModel;

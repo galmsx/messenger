@@ -7,8 +7,7 @@ import { KeyValueStoreModule } from '../../KeyValueService/IoC/key.value.store.m
 
 @Module({
   imports: [DatabaseModule, KeyValueStoreModule],
-  providers: [{provide: USER_SERVICE, useClass: UserService}, UserModelMappers],
-  exports: [USER_SERVICE]
+  providers: [{ provide: USER_SERVICE, useClass: UserService }, UserModelMappers],
+  exports: [USER_SERVICE],
 })
-export class UserModule {
-}
+export class UserModule {}

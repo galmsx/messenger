@@ -5,7 +5,7 @@ import { SEQUELIZE } from './database.constants';
 
 @Injectable()
 export class DatabaseService implements IDatabaseService {
-  constructor(@Inject(SEQUELIZE) private readonly sequelize){}
+  constructor(@Inject(SEQUELIZE) private readonly sequelize) {}
   public async transaction(cb, options: TransactionOptions = {}): Promise<any> {
     return this.sequelize.transaction(options, async () => {
       return cb();

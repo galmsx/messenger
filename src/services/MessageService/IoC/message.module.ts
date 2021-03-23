@@ -5,9 +5,8 @@ import { MESSAGE_SERVICE } from '../message.constants';
 import { WebSocketModule } from '../../WebSocketsService/IoC/web.socket.module';
 
 @Module({
-  imports:[DatabaseModule, WebSocketModule],
-  providers: [{provide: MESSAGE_SERVICE, useClass: MessageService}],
-  exports: [MESSAGE_SERVICE]
+  imports: [DatabaseModule, WebSocketModule],
+  providers: [{ provide: MESSAGE_SERVICE, useClass: MessageService }],
+  exports: [MESSAGE_SERVICE],
 })
-export class MessageModule {
-}
+export class MessageModule {}

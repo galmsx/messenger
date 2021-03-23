@@ -17,7 +17,7 @@ import { ApplicationModel } from './application.model';
   tableName: 'message',
   timestamps: true,
 })
-export class MessageModel extends Model<MessageModel>{
+export class MessageModel extends Model<MessageModel> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT.UNSIGNED)
@@ -26,30 +26,30 @@ export class MessageModel extends Model<MessageModel>{
   @Column(DataType.STRING(1000))
   public content: number;
 
-  @ForeignKey(()=>ChatModel)
+  @ForeignKey(() => ChatModel)
   @Column(DataType.BIGINT.UNSIGNED)
   public chat_id: number;
 
-  @ForeignKey(()=>UserModel)
+  @ForeignKey(() => UserModel)
   @Column(DataType.BIGINT.UNSIGNED)
   public receiver_id: number;
 
-  @ForeignKey(()=>UserModel)
+  @ForeignKey(() => UserModel)
   @Column(DataType.BIGINT.UNSIGNED)
   public sender_id: number;
 
   @Column(DataType.INTEGER)
   public status: number;
 
-  @BelongsTo(()=>ChatModel)
+  @BelongsTo(() => ChatModel)
   public chat: number;
 
-  @BelongsTo(()=> UserModel,'sender_id')
+  @BelongsTo(() => UserModel, 'sender_id')
   public sender: UserModel;
 
-  @BelongsTo(()=>UserModel,'receiver_id')
+  @BelongsTo(() => UserModel, 'receiver_id')
   public receiver: UserModel;
 
-  @HasMany(()=>ApplicationModel)
+  @HasMany(() => ApplicationModel)
   public applications: ApplicationModel[];
 }

@@ -6,11 +6,9 @@ import { ChatModelToDataMapper } from '../mappers/chatModelToData.mapper';
 import { UserModule } from '../../UserService/IoC/user.module';
 import { MessageModule } from '../../MessageService/IoC/message.module';
 
-
 @Module({
-  imports:[DatabaseModule,UserModule ,MessageModule],
-  providers: [{provide: CHAT_SERVICE, useClass: ChatService}, ChatModelToDataMapper],
-  exports: [CHAT_SERVICE]
+  imports: [DatabaseModule, UserModule, MessageModule],
+  providers: [{ provide: CHAT_SERVICE, useClass: ChatService }, ChatModelToDataMapper],
+  exports: [CHAT_SERVICE],
 })
-export class ChatModule {
-}
+export class ChatModule {}

@@ -8,18 +8,18 @@ import { UserModel } from './user.model';
 })
 export class UserProjectModel extends Model<UserProjectModel> {
   @PrimaryKey
-  @ForeignKey(()=>UserModel)
+  @ForeignKey(() => UserModel)
   @Column(DataType.BIGINT.UNSIGNED)
   public user_id: number;
 
   @PrimaryKey
-  @ForeignKey(()=>ProjectModel)
+  @ForeignKey(() => ProjectModel)
   @Column(DataType.BIGINT.UNSIGNED)
   public project_id: number;
 
-  @BelongsTo(()=> UserModel)
+  @BelongsTo(() => UserModel)
   public user: UserModel;
 
-  @BelongsTo(()=>ProjectModel)
+  @BelongsTo(() => ProjectModel)
   public project: ProjectModel;
 }

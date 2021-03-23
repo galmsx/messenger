@@ -10,7 +10,7 @@ export interface IExtendedMessage {
   status: number;
   user: IUser;
   createdAt: string;
-  applications: IPostMessageApplication[]
+  applications: IPostMessageApplication[];
 }
 
 export interface IPostMessage {
@@ -22,6 +22,6 @@ export interface IPostMessage {
   applications: IPostMessageApplication[];
 }
 export interface IPostMessageApplication {
-link: string;
-type: APPLICATION_TYPE;
+  link: string;
+  type: APPLICATION_TYPE;
 }

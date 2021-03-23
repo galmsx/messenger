@@ -41,10 +41,10 @@ export const databaseProviders = [
         ChatModel,
         ParticipantModel,
         MessageModel,
-        ApplicationModel
+        ApplicationModel,
       ]);
 
-      await  sequelize.sync();
+      await sequelize.sync();
       return sequelize;
     },
   },

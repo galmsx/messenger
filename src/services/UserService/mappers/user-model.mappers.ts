@@ -6,7 +6,7 @@ import { KeyValueStoreService } from '../../KeyValueService/key.value.store.serv
 
 @Injectable()
 export class UserModelMappers {
-  constructor(@Inject(KEY_VALUE_SERVICE) private readonly keyValue: KeyValueStoreService){};
+  constructor(@Inject(KEY_VALUE_SERVICE) private readonly keyValue: KeyValueStoreService) {}
   public async ModelToExtendedInfo(model: UserModel): Promise<IUserExtendedInfo> {
     const socketId = await this.keyValue.getSting(Number(model.id).toString());
 

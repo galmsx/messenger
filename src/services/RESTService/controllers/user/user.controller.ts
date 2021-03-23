@@ -7,14 +7,14 @@ import { IUserExtendedInfo } from '../../../UserService/user.interfaces';
 @Controller('/api/user')
 @UseGuards(AuthGuard)
 export class UserController {
-  constructor(@Inject(USER_SERVICE) private readonly userService: UserService){}
+  constructor(@Inject(USER_SERVICE) private readonly userService: UserService) {}
 
   @Get('/:id')
-  public async getUser(@Param("id") id: number): Promise<IUserExtendedInfo>{
-    return this.userService.getUserExtendedInfo({id});
+  public async getUser(@Param('id') id: number): Promise<IUserExtendedInfo> {
+    return this.userService.getUserExtendedInfo({ id });
   }
   @Get()
-  public async searchUsers(@Query('search') search: string): Promise<IUserExtendedInfo[]>{
+  public async searchUsers(@Query('search') search: string): Promise<IUserExtendedInfo[]> {
     return this.userService.findUsers(search);
   }
 }

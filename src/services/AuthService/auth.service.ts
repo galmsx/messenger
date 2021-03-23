@@ -13,14 +13,14 @@ export class AuthService {
   public async loginByGoogle(code: string, key: string): Promise<IJwtData> {
     const googleAccessToken: string = await this.getGoogleAccessToken(code);
     const email: string = await this.getUserEmail(googleAccessToken);
-    const user = await this.userService.getUserExtendedInfo({email});
+    const user = await this.userService.getUserExtendedInfo({ email });
 
     if (!user) {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
 
     const token: string = this.generateToken(user);
-    await this.userService.updateUserInfo(user.id,{public_key: key});
+    await this.userService.updateUserInfo(user.id, { public_key: key });
 
     return { token };
   }

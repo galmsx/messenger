@@ -5,7 +5,7 @@ import { UserProjectModel } from './user_project.model';
   tableName: 'project',
   timestamps: false,
 })
-export class ProjectModel extends Model<ProjectModel>{
+export class ProjectModel extends Model<ProjectModel> {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT.UNSIGNED)
@@ -15,6 +15,6 @@ export class ProjectModel extends Model<ProjectModel>{
   @Column(DataType.TEXT)
   public title: string;
 
-  @HasMany(()=>UserProjectModel)
+  @HasMany(() => UserProjectModel)
   public user_project: UserProjectModel[];
 }

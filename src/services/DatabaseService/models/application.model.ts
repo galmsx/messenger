@@ -6,9 +6,8 @@ import { MessageModel } from './message.model';
   timestamps: false,
 })
 export class ApplicationModel extends Model<ApplicationModel> {
-
   @PrimaryKey
-  @ForeignKey(()=>MessageModel)
+  @ForeignKey(() => MessageModel)
   @Column(DataType.BIGINT.UNSIGNED)
   public message_id: number;
 
@@ -20,6 +19,6 @@ export class ApplicationModel extends Model<ApplicationModel> {
   @Column(DataType.TEXT)
   public type: number;
 
-  @BelongsTo(()=>MessageModel)
+  @BelongsTo(() => MessageModel)
   public message: MessageModel;
 }
